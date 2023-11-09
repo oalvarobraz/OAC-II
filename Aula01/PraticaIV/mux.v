@@ -1,17 +1,13 @@
-module mux (input A, B, S, output reg X);
+module mux (input [3:0] A, [3:0] B, S, output reg [3:0] X);
     always @(*) begin
-        if (S == 0) begin
-            X = A;
-        end else if (S == 1) begin
-            X = B;
-        end
+        X = (S == 0) ? A : B;
     end
 endmodule
 
 
 module testMux;
-    reg A, B, S;
-    wire X;
+    reg [3:0] A, [3:0] B, S;
+    wire [3:0] X;
     integer i;
 
     mux m1 (.A(A), .B(B), .S(S), .X(X));
