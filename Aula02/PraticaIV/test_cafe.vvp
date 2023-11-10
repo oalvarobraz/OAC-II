@@ -1,0 +1,85 @@
+#! /c/Source/iverilog-install/bin/vvp
+:ivl_version "12.0 (devel)" "(s20150603-1539-g2693dd32b)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "C:\iverilog\lib\ivl\system.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_sys.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_textio.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2005_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\va_math.vpi";
+S_000002bafc975970 .scope module, "test" "test" 2 9;
+ .timescale 0 0;
+v000002bafca465a0_0 .var "c", 0 0;
+v000002bafca46640_0 .net "coffee", 0 0, v000002bafca4bcc0_0;  1 drivers
+v000002bafca466e0_0 .var/i "i", 31 0;
+v000002bafca46780_0 .var "m", 0 0;
+v000002bafca46820_0 .var "s", 0 0;
+v000002bafca468c0_0 .net "soup", 0 0, v000002bafca4be00_0;  1 drivers
+S_000002bafc975b00 .scope module, "a" "cafe" 2 14, 2 1 0, S_000002bafc975970;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "coffe_button";
+    .port_info 1 /INPUT 1 "money";
+    .port_info 2 /INPUT 1 "soup_button";
+    .port_info 3 /OUTPUT 1 "coffee";
+    .port_info 4 /OUTPUT 1 "soup";
+v000002bafca46500_0 .net "coffe_button", 0 0, v000002bafca465a0_0;  1 drivers
+v000002bafca4bcc0_0 .var "coffee", 0 0;
+v000002bafca4bd60_0 .net "money", 0 0, v000002bafca46780_0;  1 drivers
+v000002bafca4be00_0 .var "soup", 0 0;
+v000002bafca4bea0_0 .net "soup_button", 0 0, v000002bafca46820_0;  1 drivers
+E_000002bafca48d60 .event anyedge, v000002bafca4bea0_0, v000002bafca4bd60_0, v000002bafca46500_0;
+    .scope S_000002bafc975b00;
+T_0 ;
+    %wait E_000002bafca48d60;
+    %load/vec4 v000002bafca46500_0;
+    %load/vec4 v000002bafca4bea0_0;
+    %and;
+    %inv;
+    %load/vec4 v000002bafca46500_0;
+    %load/vec4 v000002bafca4bd60_0;
+    %and;
+    %and;
+    %assign/vec4 v000002bafca4bcc0_0, 0;
+    %load/vec4 v000002bafca4bd60_0;
+    %load/vec4 v000002bafca4bea0_0;
+    %and;
+    %assign/vec4 v000002bafca4be00_0, 0;
+    %jmp T_0;
+    .thread T_0, $push;
+    .scope S_000002bafc975970;
+T_1 ;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v000002bafca465a0_0, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v000002bafca46780_0, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v000002bafca46820_0, 0;
+    %vpi_call 2 21 "$monitor", "Coffee Button: %0b\011\011Money: %0b\011\011Soup Button: %0b\011\011Coffe: %0b\011\011Soup: %0b\012", v000002bafca465a0_0, v000002bafca46780_0, v000002bafca46820_0, v000002bafca46640_0, v000002bafca468c0_0 {0 0 0};
+    %vpi_call 2 22 "$dumpfile", "coffee.vcd" {0 0 0};
+    %vpi_call 2 23 "$dumpvars", 32'sb00000000000000000000000000000000, S_000002bafc975970 {0 0 0};
+    %pushi/vec4 0, 0, 32;
+    %store/vec4 v000002bafca466e0_0, 0, 32;
+T_1.0 ;
+    %load/vec4 v000002bafca466e0_0;
+    %cmpi/s 8, 0, 32;
+    %jmp/0xz T_1.1, 5;
+    %load/vec4 v000002bafca466e0_0;
+    %pad/s 3;
+    %split/vec4 1;
+    %store/vec4 v000002bafca46820_0, 0, 1;
+    %split/vec4 1;
+    %store/vec4 v000002bafca46780_0, 0, 1;
+    %store/vec4 v000002bafca465a0_0, 0, 1;
+    %delay 10, 0;
+    %load/vec4 v000002bafca466e0_0;
+    %addi 1, 0, 32;
+    %store/vec4 v000002bafca466e0_0, 0, 32;
+    %jmp T_1.0;
+T_1.1 ;
+    %end;
+    .thread T_1;
+# The file index is used to find the file name in the following table.
+:file_names 3;
+    "N/A";
+    "<interactive>";
+    "cafe.v";

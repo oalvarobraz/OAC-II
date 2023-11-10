@@ -1,0 +1,76 @@
+#! /c/Source/iverilog-install/bin/vvp
+:ivl_version "12.0 (devel)" "(s20150603-1539-g2693dd32b)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "C:\iverilog\lib\ivl\system.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_sys.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_textio.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2005_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\va_math.vpi";
+S_000002d9491d55b0 .scope module, "test" "test" 2 12;
+ .timescale 0 0;
+v000002d9492ea790_0 .var "cinto", 0 0;
+v000002d9492ea830_0 .var/i "i", 31 0;
+v000002d9492ea8d0_0 .var "ignicao", 0 0;
+v000002d9492ea970_0 .net "luz", 0 0, v000002d9492ebe30_0;  1 drivers
+v000002d9492eaa10_0 .var "motorista", 0 0;
+S_000002d9491d5740 .scope module, "a" "alarme" 2 17, 2 1 0, S_000002d9491d55b0;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "motorista_presente";
+    .port_info 1 /INPUT 1 "cinto_em_uso";
+    .port_info 2 /INPUT 1 "ignicao_ligada";
+    .port_info 3 /OUTPUT 1 "luz_de_advertencia";
+v000002d9492e6e90_0 .net "cinto_em_uso", 0 0, v000002d9492ea790_0;  1 drivers
+v000002d9492ebd90_0 .net "ignicao_ligada", 0 0, v000002d9492ea8d0_0;  1 drivers
+v000002d9492ebe30_0 .var "luz_de_advertencia", 0 0;
+v000002d9492ebed0_0 .net "motorista_presente", 0 0, v000002d9492eaa10_0;  1 drivers
+E_000002d9492ec330 .event anyedge, v000002d9492ebd90_0, v000002d9492e6e90_0, v000002d9492ebed0_0;
+    .scope S_000002d9491d5740;
+T_0 ;
+    %wait E_000002d9492ec330;
+    %load/vec4 v000002d9492ebed0_0;
+    %load/vec4 v000002d9492e6e90_0;
+    %inv;
+    %and;
+    %load/vec4 v000002d9492ebd90_0;
+    %and;
+    %assign/vec4 v000002d9492ebe30_0, 0;
+    %jmp T_0;
+    .thread T_0, $push;
+    .scope S_000002d9491d55b0;
+T_1 ;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v000002d9492eaa10_0, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v000002d9492ea790_0, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v000002d9492ea8d0_0, 0;
+    %vpi_call 2 24 "$monitor", "\012Motorista: %0b\011\011Cinto: %0b\011\011Ignicao: %0b\011\011Luz de Advertencia: %0b\012", v000002d9492eaa10_0, v000002d9492ea790_0, v000002d9492ea8d0_0, v000002d9492ea970_0 {0 0 0};
+    %vpi_call 2 25 "$dumpfile", "alarm.vcd" {0 0 0};
+    %vpi_call 2 26 "$dumpvars", 32'sb00000000000000000000000000000000, S_000002d9491d55b0 {0 0 0};
+    %pushi/vec4 0, 0, 32;
+    %store/vec4 v000002d9492ea830_0, 0, 32;
+T_1.0 ;
+    %load/vec4 v000002d9492ea830_0;
+    %cmpi/s 8, 0, 32;
+    %jmp/0xz T_1.1, 5;
+    %load/vec4 v000002d9492ea830_0;
+    %pad/s 3;
+    %split/vec4 1;
+    %store/vec4 v000002d9492ea8d0_0, 0, 1;
+    %split/vec4 1;
+    %store/vec4 v000002d9492ea790_0, 0, 1;
+    %store/vec4 v000002d9492eaa10_0, 0, 1;
+    %delay 10, 0;
+    %load/vec4 v000002d9492ea830_0;
+    %addi 1, 0, 32;
+    %store/vec4 v000002d9492ea830_0, 0, 32;
+    %jmp T_1.0;
+T_1.1 ;
+    %end;
+    .thread T_1;
+# The file index is used to find the file name in the following table.
+:file_names 3;
+    "N/A";
+    "<interactive>";
+    "alarme.v";
